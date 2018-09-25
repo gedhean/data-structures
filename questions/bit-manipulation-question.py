@@ -1,9 +1,6 @@
 #!/user/bin/python
 # -*- coding: utf-8 -*-
 
-# Function to count the number of bits that are 
-# different between two numbers
-
 # Counting bits set (1)
 
 # Gêdhean's way
@@ -24,6 +21,8 @@ def bits_set2(num):
 		count += 1
 	return count
 
+# Function to count the number of bits that are 
+# different between two numbers
 def diff_bits(num1, num2):
 	'''Return the number of different bits between two numbers (num1 and num2)'''
 	diffs = num1 ^ num2
