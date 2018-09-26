@@ -1,9 +1,8 @@
-#!/user/bin/python
 # -*- coding: utf-8 -*-
 
 # Counting bits set (1)
 
-# Gêdhean's way
+# Gêdhean's way (naive)
 def bits_set1(num):
 	'''Return the number of bits set (1) for the given number (num)'''
 	count = 0
@@ -20,6 +19,37 @@ def bits_set2(num):
 		num = num & (num - 1)
 		count += 1
 	return count
+# O(log(n))  Maybe the best 
+def count_bit3(num):
+    mask1 = 0b01010101 	# decimal 85
+    mask2 = 0b00110011 	# decimal 51
+    mask3 = 0b00001111 	# decimal 15
+
+    num = (num & mask1) + ((num >> 1) & mask1) 
+    num = (num & mask2) + ((num >> 2) & mask2)
+    num = (num & mask3) + ((num >> 4) & mask3)
+    return num
+
+# Fastest and 'easy' way 
+# Lookup in the array for the number of bits set 
+def count_bit4(num):
+	'''
+	Return the number of bits set (1) for the given number (num)	
+	'''	
+	lookup = [0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,1,2,2,3,
+ 	2,3,3,4,2,3,3,4,3,4,4,5,1,2,2,3,2,3,3,4,2,3,3,
+ 	4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,1,2,
+ 	2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,
+ 	4,4,5,4,5,5,6,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,
+ 	3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,1,2,2,3,2,3,3,
+ 	4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,
+ 	5,6,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,3,4,4,5,4,
+ 	5,5,6,4,5,5,6,5,6,6,7,2,3,3,4,3,4,4,5,3,4,4,5,
+ 	4,5,5,6,3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,3,4,4,
+ 	5,4,5,5,6,4,5,5,6,5,6,6,7,4,5,5,6,5,6,6,7,5,6,
+ 	6,7,6,7,7,8]
+
+ 	return lookup[num]
 
 # Function to count the number of bits that are 
 # different between two numbers
