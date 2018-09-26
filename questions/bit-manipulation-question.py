@@ -3,8 +3,10 @@
 # Counting bits set (1)
 
 # Gêdhean's way (naive)
-def bits_set1(num):
-	'''Return the number of bits set (1) for the given number (num)'''
+def count_bit1(num):
+	'''
+	Return the number of bits set (1) for the given number (num)
+	'''
 	count = 0
 	for bit in bin(num):
 		if bit == '1':
@@ -12,8 +14,10 @@ def bits_set1(num):
 	return count
 
 # Brian Kernighan's way
-def bits_set2(num):
-	'''Return the number of bits set (1) for the given number (num)'''
+def count_bit2(num):
+	'''
+	Return the number of bits set (1) for the given number (num)
+	'''
 	count = 0
 	while num:
 		num = num & (num - 1)
@@ -36,6 +40,7 @@ def count_bit4(num):
 	'''
 	Return the number of bits set (1) for the given number (num)	
 	'''	
+	# 256 possibilitys combining 8-bit 
 	lookup = [0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,1,2,2,3,
  	2,3,3,4,2,3,3,4,3,4,4,5,1,2,2,3,2,3,3,4,2,3,3,
  	4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,1,2,
@@ -54,13 +59,15 @@ def count_bit4(num):
 # Function to count the number of bits that are 
 # different between two numbers
 def diff_bits(num1, num2):
-	'''Return the number of different bits between two numbers (num1 and num2)'''
+	'''
+	Return the number of different bits between two numbers (num1 and num2)
+	'''
 	diffs = num1 ^ num2
-	return bits_set2(diffs)
+	return count_bit2(diffs)
 
 if __name__ == '__main__':
-	print('Number of bits one in number 1:', bits_set1(1))
-	print('Number of bits one in number 3:', bits_set1(3))
-	print('Number of bits one in number 1:', bits_set2(1))
-	print('Number of bits one in number 3:', bits_set2(3))
+	print('Number of bits one in number 1:', count_bit1(1))
+	print('Number of bits one in number 3:', count_bit1(3))
+	print('Number of bits one in number 1:', count_bit2(1))
+	print('Number of bits one in number 3:', count_bit2(3))
 	print('Number of different bits between 2 and 3:', diff_bits(2,3))
