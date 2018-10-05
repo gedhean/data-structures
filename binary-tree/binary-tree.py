@@ -1,5 +1,8 @@
 class TreeNode:
-	"""docstring for TreeNode"""
+	"""
+	docstring for TreeNode
+	Representation of Node in a binary tree
+	"""
 	def __init__(self, value):
 		self.value = value
 		self.left = None
@@ -21,7 +24,7 @@ class TreeNode:
 		:rtype: TreeNode
 		"""
 		self.right = TreeNode(value)
-		return self
+		return self.right
 
 # Depth-First-Search (DFS) - Pre Order
 # 1. visit root
@@ -61,6 +64,32 @@ def preorderTraversalIt(root):
 	
 	return result
 
+# Depth-First-Search (DFS) - In Order
+# 1. go left
+# 2. visit root
+# 3. go right
+def inorderTraversalRec(root):
+	"""
+	Recursive version of DFS - In order
+    :type root: TreeNode
+    :rtype: List[int]
+    """
+	if root is not None:
+		return inorderTraversalRec(root.left) + [root.value] + inorderTraversalRec(root.right)
+	else:
+		return []
+
+def inorderTraversalIt(root):
+	"""
+	Iterative version of DFS - In order
+    :type root: TreeNode
+    :rtype: List[int]
+    """
+	if root is None: 
+		return []
+
+	# code goes here
+
 def main():
 	"""
 			1
@@ -76,13 +105,17 @@ def main():
 	T1.left.addRight(5)
 	T1.right.addLeft(7)
 
-	print("Test 1 <=================>")
+	print("Test 1 <======== Pre order =========>")
 	print("Output: ", preorderTraversalRec(T1))
 	print("Answer: ", "[1, 2, 4, 5, 3, 7]")
 	# base case
-	print("Test 2 <=================>")
-	print("Output: ", preorderTraversalRec(None))
+	print("Test 2 <========= Pre order ========>")
+	print("Output: ", preorderTraversalIt(None))
 	print("Answer: ", "[]")
+
+	print("Test 2 <========= In order ========>")
+	print("Output: ", inorderTraversalRec(T1))
+	print("Answer: ", "[4, 2, 5, 1, 7, 3]")
 
 if __name__ == '__main__':
 	main()
