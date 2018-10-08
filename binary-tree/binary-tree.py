@@ -113,6 +113,19 @@ def inorderTraversalIt(root):
 					break
 
 	return result
+# Depth-First-Search (DFS) - Post Order traverse
+# 1. go left
+# 2. go right
+# 3. visit root
+def postorderTraverseRec(root):
+	"""
+	Recursive version of DFS - In order traverse
+    :type root: TreeNode
+    :rtype: List[int]
+    """
+	if root is None:
+		return []
+	return postorderTraverseRec(root.left) + postorderTraverseRec(root.right) + [root.value]
 
 def main():
 	"""
@@ -144,6 +157,10 @@ def main():
 	print("Test 4 <========= In order - Iterative ========>")
 	print("Output: ", inorderTraversalIt(T1))
 	print("Answer: ", "[4, 2, 5, 1, 7, 3]")
+
+	print("Test 5 <========= Post order - Recursive ========>")
+	print("Output: ", postorderTraverseRec(T1))
+	print("Answer: ", "[4, 5, 2, 7, 3, 1]")
 
 if __name__ == '__main__':
 	main()
