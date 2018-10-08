@@ -26,13 +26,13 @@ class TreeNode:
 		self.right = TreeNode(value)
 		return self.right
 
-# Depth-First-Search (DFS) - Pre Order
+# Depth-First-Search (DFS) - Pre Order traverse
 # 1. visit root
 # 2. go left
 # 3. go right
 def preorderTraversalRec(root):
 	"""
-	Recursive version of DFS - preorder
+	Recursive version of DFS - preorder traverse
     :type root: TreeNode
     :rtype: List[int]
     """
@@ -43,7 +43,7 @@ def preorderTraversalRec(root):
 
 def preorderTraversalIt(root):
 	"""
-	Iterative version of DFS - preorder
+	Iterative version of DFS - preorder traverse
     :type root: TreeNode
     :rtype: List[int]
     """
@@ -64,13 +64,13 @@ def preorderTraversalIt(root):
 	
 	return result
 
-# Depth-First-Search (DFS) - In Order
+# Depth-First-Search (DFS) - In Order traverse
 # 1. go left
 # 2. visit root
 # 3. go right
 def inorderTraversalRec(root):
 	"""
-	Recursive version of DFS - In order
+	Recursive version of DFS - In order traverse
     :type root: TreeNode
     :rtype: List[int]
     """
@@ -81,7 +81,7 @@ def inorderTraversalRec(root):
 
 def inorderTraversalIt(root):
 	"""
-	Iterative version of DFS - In order
+	Iterative version of DFS - In order traverse
     :type root: TreeNode
     :rtype: List[int]
     """
@@ -89,6 +89,30 @@ def inorderTraversalIt(root):
 		return []
 
 	# code goes here
+	stack = []
+	currentNode = root
+	result = []
+	while 1:
+		# Go to the left most node leaf
+		if currentNode.left is not None:
+			stack.append(currentNode)
+			currentNode = currentNode.left
+		# Otherwise, try to do that starting from the right child
+		else:
+			result.append(currentNode.value)	
+			if currentNode.right is not None:
+				currentNode = currentNode.right
+			else:
+				if len(stack) is 0:
+					break
+				currentNode = stack.pop()
+				result.append(currentNode.value)
+				if currentNode.right is not None:
+					currentNode = currentNode.right
+				else: 
+					break
+
+	return result
 
 def main():
 	"""
@@ -105,16 +129,20 @@ def main():
 	T1.left.addRight(5)
 	T1.right.addLeft(7)
 
-	print("Test 1 <======== Pre order =========>")
+	print("Test 1 <======== Pre order - Recursive =========>")
 	print("Output: ", preorderTraversalRec(T1))
 	print("Answer: ", "[1, 2, 4, 5, 3, 7]")
 	# base case
-	print("Test 2 <========= Pre order ========>")
-	print("Output: ", preorderTraversalIt(None))
-	print("Answer: ", "[]")
+	print("Test 2 <========= Pre order - Iterative ========>")
+	print("Output: ", preorderTraversalIt(T1))
+	print("Answer: ", "[1, 2, 4, 5, 3, 7]")
 
-	print("Test 2 <========= In order ========>")
+	print("Test 3 <========= In order - Recursive ========>")
 	print("Output: ", inorderTraversalRec(T1))
+	print("Answer: ", "[4, 2, 5, 1, 7, 3]")
+
+	print("Test 4 <========= In order - Iterative ========>")
+	print("Output: ", inorderTraversalIt(T1))
 	print("Answer: ", "[4, 2, 5, 1, 7, 3]")
 
 if __name__ == '__main__':
