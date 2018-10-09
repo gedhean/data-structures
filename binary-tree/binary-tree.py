@@ -113,6 +113,7 @@ def inorderTraversalIt(root):
 					break
 
 	return result
+
 # Depth-First-Search (DFS) - Post Order traverse
 # 1. go left
 # 2. go right
@@ -126,6 +127,54 @@ def postorderTraverseRec(root):
 	if root is None:
 		return []
 	return postorderTraverseRec(root.left) + postorderTraverseRec(root.right) + [root.value]
+
+def postorderTraverseIt(root):
+	"""
+	Iteractive version of DFS - In order traverse
+    :type root: TreeNode
+    :rtype: List[int]
+    """
+	result = []
+
+	if root is None:
+		return result
+
+	stack = [root]
+	# Perform a preorder
+	while stack:
+		current = stack.pop()
+		result.append(current.value)
+		if current.left:
+			stack.append(current.left)
+		if current.right:
+			stack.append(current.right)
+	result.reverse()
+	return result
+# Breadth-First Search
+def bfs(root):
+	"""
+	Iteractive version of BFS - Binary Tree traverse
+    :type root: TreeNode
+    :rtype: List[List[int]]
+    """
+	if root is None:
+		return []
+	queue = [[root]]
+	result = []
+	for level in queue:
+		nextLevel = []
+		levelRes = []
+		for node in level:
+			levelRes.append(node.value)
+			if node.left:
+				nextLevel.append(node.left)
+			if node.right:
+				nextLevel.append(node.right)
+		result.append(levelRes)
+		if nextLevel:
+			queue.append(nextLevel)
+	return result
+
 
 def main():
 	"""
@@ -161,6 +210,16 @@ def main():
 	print("Test 5 <========= Post order - Recursive ========>")
 	print("Output: ", postorderTraverseRec(T1))
 	print("Answer: ", "[4, 5, 2, 7, 3, 1]")
+
+	print("Test 6 <========= Post order - Iterative ========>")
+	print("Output: ", postorderTraverseIt(T1))
+	print("Answer: ", "[4, 5, 2, 7, 3, 1]")
+
+
+	print("Test 7 <======== Breadth-First Search ===========>")
+	print("Output: ", bfs(T1))
+	print("Answer: ", "[[1], [2, 3], [4, 5, 7]]")
+
 
 if __name__ == '__main__':
 	main()
