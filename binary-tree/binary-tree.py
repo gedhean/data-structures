@@ -175,6 +175,61 @@ def bfs(root):
 			queue.append(nextLevel)
 	return result
 
+def isSymmetric(root):
+	'''
+	Return true if the given tree is symmetric with relation to root or false otherwise.
+	type root: TreeNode
+	rtype: bool
+	'''
+	if root:
+		return isMirrorTree(root.left, root.right)
+	return True
+
+def isMirrorTree(T1,T2):
+	'''
+	Return true if the given trees are mirror of each other or false otherwise.
+	type T1: TreeNode
+	type T2: TreeNode
+	rtype: bool
+	'''
+	if T1 is None and T2 is None:
+		return True
+	elif T1 is None or T2 is None:
+		return False
+	else:
+		if T1.value == T2.value:
+			leftSubTree = isMirrorTree(T1.left, T2.right)
+			rightSubTree = isMirrorTree(T1.right, T2.left)
+			return leftSubTree and rightSubTree
+		else:
+			return False
+
+def isLeaf(node):
+	'''
+	Return true if the given node if a leaf or false otherwise.
+	type node: TreeNode
+	rtype: bool 
+	'''
+	if node and node.left is None and node.right is None:
+		return True
+	else:
+		return False
+
+def hasPathSum(root, sum):
+	'''
+	Given the number sum and a binary tree (root), return true if exist a root-to-leaf path in the tree that the sum
+	of the node values in the path is equals to sum param. Otherwise, return false.
+	type root: TreeNode
+	rtype: bool
+	'''
+	if not root:
+		return False
+	else:
+		if not root.left and not root.right and root.value == sum:
+			return True
+		else:
+			newSum = sum - root.value
+			return hasPathSum(root.left, newSum) or hasPathSum(root.right, newSum)
 
 def main():
 	"""
@@ -220,6 +275,11 @@ def main():
 	print("Output: ", bfs(T1))
 	print("Answer: ", "[[1], [2, 3], [4, 5, 7]]")
 
+	T2 = TreeNode(2)
+	T2.addLeft(1).addRight(3)
+	T2.addRight(3).addLeft(1)
+	print("Test 8 <======== Check for isSymmetric ===========>")
+	print("Output: ", isSymmetric(T2))	
 
 if __name__ == '__main__':
 	main()
