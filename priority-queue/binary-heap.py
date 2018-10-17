@@ -8,13 +8,20 @@ class BinaryMaxHeap:
 		self.maxSize = maxSize
 	
 	def getValue(self, index):
+		'''
+		Get the value of the given index in the BinaryMaxHeap
+		rtype: integer
+		'''
 		if self.size != 0 and index <= self.size:
 			return self.heap[index - 1]
+		raise ValueError('Could not get value. Index out of range.')
 
 	def setValue(self, index, value):
+		'''
+		Set the value of the given index in the BinaryMaxHeap
+		'''
 		if index > self.size and index < 1:
-			print('Could not set value. Invalid index.')
-			return
+			raise ValueError('Could not set value. Invalid index.')
 		self.heap[index - 1] = value
 
 	def insert(self, value):
@@ -25,28 +32,41 @@ class BinaryMaxHeap:
 		'''
 		# heap is full
 		if self.size >= self.maxSize:
-			print('Could not insert. Heap if full!')
-			return
-
-		lastIndex = self.size if self.size != 0 else 1
-		parentIndex = self.getParentIndex(lastIndex)
-		index = self.getLeftChildIndex(parentIndex) if (lastIndex % 2 == 1) else self.getRightChildIndex(parentIndex)
-		self.setValue(index, value)
-		self.size += 1
-		self.siftUp(index)
+			raise ValueError('Could not insert. Heap if full!')
+		# Empty heap
+		if self.isEmpty():
+			print('First heap element')
+			self.setValue(1, value)
+			self.size += 1
+		else:
+			index = self.size + 1
+			self.setValue(index, value)
+			self.size += 1
+			self.siftUp(index)
 
 	def extractMax(self):
-		if self.size == 0:
-			print('Could not extractMax. Heap is empty!')
+		'''
+		Return and delete the max value from the BinaryMaxHeap.
+		rtype: integer
+		'''
+		return self.remove(1)
+
+	def remove(self, index):
+		'''
+		Remove and return the value of given index from the BinaryMaxHeap.
+		rtype: integer or None
+		'''
+		if index > self.getSize():
+			raise ValueError('Could not remove. Index out of range!')
+		if self.isEmpty():
 			return None
-		
-		lastValueIndex = self.size
-		maxValue = self.getValue(1)
-		self.swapValues(1, lastValueIndex)
-		self.getValue(lastValueIndex, None)
+		lastIndex = self.size
+		value = self.getValue(index)
+		self.swapValues(index, lastIndex)
+		self.setValue(lastIndex, None)
 		self.size -= 1
-		self.siftDown(1)
-		return maxValue
+		self.siftDown(index)
+		return value
 
 	def siftUp(self, index):
 		'''
@@ -72,22 +92,39 @@ class BinaryMaxHeap:
 		parentIndex = index
 		rightChildIndex = self.getRightChildIndex(parentIndex)
 		leftChildIndex = self.getLeftChildIndex(parentIndex)
+		if rightChildIndex > self.size:
+			return
 		childIndex = leftChildIndex if self.getValue(leftChildIndex) > self.getValue(rightChildIndex) else rightChildIndex
 
-		while (self.getValue(parentIndex) < self.getValue(childIndex)) and (childIndex < self.size):
+		while (childIndex < self.size) and (self.getValue(parentIndex) < self.getValue(childIndex)):
 			
 			self.swapValues(parentIndex, childIndex)
 			parentIndex = childIndex
 			rightChildIndex = self.getRightChildIndex(parentIndex)
 			leftChildIndex = self.getLeftChildIndex(parentIndex)
+			if rightChildIndex > self.size:
+				break
 			childIndex = leftChildIndex if self.getValue(leftChildIndex) > self.getValue(rightChildIndex) else rightChildIndex
 	
+	def swapValues(self, index1,index2):
+		'''
+		Swap two values in the BinaryMaxHeap
+		type index1: integer
+		type index2: integer
+		rtype: void
+		'''
+		temp = self.getValue(index1)
+		self.setValue(index1, self.getValue(index2)) 
+		self.setValue(index2, temp)
+
 	def getParentIndex(self, index):
 		'''
 		Retrun the parent index of the given elment index.
 		type index: integer
 		rtype: integer
 		'''
+		if index == 1: 
+			return 1
 		return floor(index/2)
 
 	def getLeftChildIndex(self, index):
@@ -106,29 +143,81 @@ class BinaryMaxHeap:
 		'''
 		return ((2 * index) + 1)
 
-	def swapValues(self, index1,index2):
+	def isEmpty(self):	
 		'''
-		Swap two values in the BinaryMaxHeap
-		type index1: integer
-		type index2: integer
-		rtype; void
+		Return True if the BinaryMaxHeap is empty or False otherwise.
+		rtype: bool
 		'''
-		temp = self.getValue(index1)
-		self.setValue(index1, self.getValue(index2)) 
-		self.setValue(index2, temp)
+		return self.size == 0
+
+	def isFull(self):	
+		'''
+		Return True if the BinaryMaxHeap is full or False otherwise.
+		rtype: bool
+		'''
+		return self.size == self.maxSize
+
+	def getMax(self):
+		'''
+		Return the max value in the BinaryMaxHeap.
+		rtype: integer or None
+		'''
+		if self.isEmpty():
+			return None
+		return self.getValue(1)
+
+	def getSize(self):
+		'''
+		Return the number of elements in the BinaryMaxHeap
+		rtype: integer
+		'''
+		return self.size
 
 def main():
 	heap = BinaryMaxHeap(maxSize=7)
 	print(heap.heap)
+	heap.insert(1)
+	print(heap.heap)
 	heap.insert(2)
+	print(heap.heap)
 	heap.insert(3)
-	heap.insert(4)
-	heap.insert(-1)
+	print(heap.heap)
+	heap.insert(7)
+	print(heap.heap)
 	heap.insert(5)
-	heap.insert(5)
-	heap.insert(0)
+	print(heap.heap)
+	heap.insert(6)
+	print(heap.heap)
+	heap.insert(7)
 	print(heap.heap)
 	print('extractMax: ', heap.extractMax())
 	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	print('extractMax: ', heap.extractMax())
+	print(heap.heap)
+	heap.insert(1)
+	print(heap.heap)
+	heap.insert(2)
+	print(heap.heap)
+	heap.insert(3)
+	print(heap.heap)
+	heap.insert(7)
+	print(heap.heap)
+	heap.insert(5)
+	print(heap.heap)
+	heap.insert(6)
+	print(heap.heap)
+	heap.insert(7)
+	print(heap.heap)
+
 if __name__ == '__main__':
 	main()
