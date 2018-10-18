@@ -38,6 +38,53 @@ def heapfy(array):
 	for index in range(n, 0, -1):
 		maxHeap(array, index)
 
+def extractMax(max_heap, end=None):
+	'''
+	By the truth, just move max to the end position in the max-heap
+	'''
+	heap_size = len(max_heap) 
+	if end > heap_size:
+		raise ValueError('Param end exceed heap size!')
+	if end is None:
+		end = heap_size
+	if max_heap:
+		temp = max_heap[0]
+		max_heap[0] = max_heap[end-1]
+		max_heap[end-1] = temp
+		siftDown(max_heap, index=1, end=end-1)
+
+def siftDown(max_heap, index, end=None):
+	'''
+	Used to keep the max-heap invariant.
+	Parent >= children
+	'''
+	if end is None:
+		end = len(max_heap)
+	parent = index
+	left = index * 2
+	right = left + 1
+	if right <= end: 	# has two children
+		child = left if max_heap[left-1] > max_heap[right-1] else right
+	elif left <= end: 	# has only left child
+		child = left
+	else:				# is a leaf
+		return
+
+	while child <= end and max_heap[parent-1] < max_heap[child-1] :
+		temp = max_heap[parent-1]
+		max_heap[parent-1] = max_heap[child-1]
+		max_heap[child-1] = temp
+		parent = child
+		left = parent * 2
+		right = left + 1
+		if right <= end:
+			child = left if max_heap[left-1] > max_heap[right-1] else right
+		elif left <= end:
+			child = left
+		else:
+			break
+
+
 def strIntegerListToArray():
 	'''
 	Receive a comman separeted list of integer from the user and a list of the given integers
