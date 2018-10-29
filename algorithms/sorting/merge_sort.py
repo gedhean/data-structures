@@ -1,6 +1,8 @@
 from math import ceil
 
 def merge(array, start, mid, end):
+	if not (end < len(array)):
+		return
 	aux = array.copy()
 	j, left, right = start, start, mid
 	
@@ -39,16 +41,30 @@ def merge_sort(array):
 
 def merge_sort_i(array):	
 	block = 1
-	while block < len(array):
+	arraySize = len(array)
+	while block < arraySize:
 		mid = block
 		start = 0
 		end = mid + block - 1
-		while mid < len(array):
-			merge(array, start, mid, end)
+		while mid < arraySize:
+			merge(array, start, mid, min(end, arraySize - 1))
 			start = end + 1
 			mid = end  + block + 1
 			end = mid + block - 1
 		block *= 2 
+
+def is_sorted(array):
+	'''
+	Return true if the given array is sorted ascending
+	type array: list
+	rype: boolean
+	'''
+	minElement = float("-inf")
+	for element in array:
+		if minElement > element:
+			return False	
+		minElement = element
+	return True
 
 if __name__ == '__main__':
 	from random import sample
@@ -56,7 +72,7 @@ if __name__ == '__main__':
 	for s in range(1,11):
 		print('Merge Sort random test -', s)		
 		arr = sample(range(100), 10)
-		print(arr)
-		merge_sort(arr)
-		print(arr)
+		print(arr, " is sorted? ", is_sorted(arr))
+		merge_sort_i(arr)
+		print(arr, " is sorted? ", is_sorted(arr))
 		print('\n')
