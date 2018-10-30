@@ -12,7 +12,7 @@ class Vertex:
 	
 	def __str__(self):
 		'Return the String representation of this Vertex'
-		return str(self.id) + ' connected to ' + str([v.id for v in self.connectedTo])
+		return str(self.id) + ' connected to ' + str([v for v in self.connectedTo])
 
 	def addNeighbor(self, nbr, weight=0):
 		'''
@@ -62,7 +62,7 @@ class Graph:
 		return iter(self.list.values())
 
 	def __str__(self):
-		return 'Vertices: ' + str([v.id for v in self.vertices])
+		return 'Vertices: ' + str([v for v in self.vertices])
 
 	def addVertice(self, key):
 		'''
@@ -77,8 +77,8 @@ class Graph:
 		Return the Vertex object of the given key
 		rtype: integer or string - vertex id 
 		'''
-		if key in vertices:
-			return vertices[key]
+		if key in self.vertices:
+			return self.vertices[key]
 		return None
 
 	def addEdge(self, fromVertex, toVertex, weight=0):
