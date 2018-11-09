@@ -1,20 +1,16 @@
 from queue import Queue
 
-def bfs(graph, start_vertex):
+def bfs(graph, start_vertex):		# Use Graph DS in graphs/graph.py
 	'''Breadth-First Search graph algorithm'''
-	parent  = {}					# Vertex parent 
-	visited = {}					# Visited vertices (helpful to avoid infinity loops)
+	parent  = {}					# Vertex parent, also keep the visited vertices 
 	discovered = Queue()			# Discovered vertices
-	step = 1
 	discovered.put(start_vertex)	# Enqueue start vertex
-	visite[start_vertex] = 0
-	parent[start_vertex] = None
+	parent[start_vertex] = None		# Start vertex do not have parent
 	
-	while not discovered.empty():
-		current = discovered.get()  # Dequeue vertex
+	while not discovered.empty():		# Loop throghout all vertices
+		current = discovered.get()  	# Dequeue vertex
 		for nbr in graph.getVertice(current).getNeighbors():
-			if nbr not in visited:
+			if nbr not in parent:
 				discovered.put(nbr)		# Enqueue discovered vertices
-				parent[nbr] = current
-				visited[nbr] = step
-		step += 1
+				parent[nbr] = current	# Store vertex parent	
+	return parent				

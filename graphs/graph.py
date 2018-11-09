@@ -44,8 +44,6 @@ class Vertex:
 		'''
 		return self.connectedTo[nbr]
 
-
-
 class Graph:
 	"""Weight Directed Graph (WDG)data structure"""
 	def __init__(self):
@@ -93,3 +91,41 @@ class Graph:
 		if toVertex not in self.vertices:
 			self.addVertice(toVertex)
 		self.vertices[fromVertex].addNeighbor(toVertex, weight)
+
+from queue import Queue
+
+def bfs(graph, start_vertex):
+	'''Breadth-First Search graph algorithm'''
+	parent  = {}					# Vertex parent, also keep the visited vertices 
+	discovered = Queue()			# Discovered vertices
+	discovered.put(start_vertex)	# Enqueue start vertex
+	parent[start_vertex] = None		# Start vertex do not have parent
+	
+	while not discovered.empty():		# Loop throghout all vertices
+		current = discovered.get()  	# Dequeue vertex
+		for nbr in graph.getVertice(current).getNeighbors():
+			if nbr not in parent:
+				discovered.put(nbr)		# Enqueue discovered vertices
+				parent[nbr] = current	# Store vertex parent	
+	return parent	
+
+if __name__ == '__main__':
+	g = Graph()
+	g.addEdge(1,2)
+	g.addEdge(1,3)
+	g.addEdge(1,4)
+	g.addEdge(2,1)
+	g.addEdge(3,1)
+	g.addEdge(4,1)
+	g.addEdge(3,4)
+	g.addEdge(4,3)
+	g.addEdge(3,5)
+	g.addEdge(5,3)
+	g.addEdge(5,6)
+	g.addVertice(7)
+	print('graph: ', g)
+
+	print('BFS 1: ', bfs(g, 1))
+	print('BFS 5: ', bfs(g, 5))
+	print('BFS 7 disconexed: ', bfs(g, 7))
+
