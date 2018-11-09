@@ -46,18 +46,20 @@ class Vertex:
 
 class Graph:
 	"""Weight Directed Graph (WDG)data structure"""
-	def __init__(self):
+	def __init__(self, directed=False, weighted=False):
 		'''
 		Create a new empty DWG
 		'''
-		self.vertices = {} 
-		self.numVertices = 0
+		self.vertices = {} 					# Keep graph vertices
+		self.numVertices = 0				# Number of vertices
+		self.directed = directed 			# Specify if the graph is directed
+		self.weighted = weighted 			# Specify if edges have weight
 	
 	def __contains__(self, vertex):
 		return vertex in self.vertices
 
 	def __iter__(self):
-		return iter(self.list.values())
+		return iter(self.vertices.values())
 
 	def __str__(self):
 		return 'Vertices: ' + str([v for v in self.vertices])
@@ -79,7 +81,7 @@ class Graph:
 			return self.vertices[key]
 		return None
 
-	def addEdge(self, fromVertex, toVertex, weight=0):
+	def addEdge(self, fromVertex, toVertex, weight=None):
 		'''
 		Add a new directed edge from fromVertex to toVertex vetices with the given weight
 		type fromVertex: integer or string - vertex id 
@@ -90,7 +92,12 @@ class Graph:
 			self.addVertice(fromVertex)
 		if toVertex not in self.vertices:
 			self.addVertice(toVertex)
-		self.vertices[fromVertex].addNeighbor(toVertex, weight)
+		if self.directed:
+			self.vertices[fromVertex].addNeighbor(toVertex, weight)
+		else:
+			self.vertices[fromVertex].addNeighbor(toVertex, weight)
+			self.vertices[toVertex].addNeighbor(fromVertex, weight)
+
 
 from queue import Queue
 
@@ -114,18 +121,15 @@ if __name__ == '__main__':
 	g.addEdge(1,2)
 	g.addEdge(1,3)
 	g.addEdge(1,4)
-	g.addEdge(2,1)
-	g.addEdge(3,1)
-	g.addEdge(4,1)
 	g.addEdge(3,4)
-	g.addEdge(4,3)
-	g.addEdge(3,5)
 	g.addEdge(5,3)
 	g.addEdge(5,6)
 	g.addVertice(7)
 	print('graph: ', g)
+	for v in g:
+		print(v)
 
-	print('BFS 1: ', bfs(g, 1))
-	print('BFS 5: ', bfs(g, 5))
-	print('BFS 7 disconexed: ', bfs(g, 7))
+	print('BFS start at 1: ', bfs(g, 1))
+	print('BFS start at 5: ', bfs(g, 5))
+	print('BFS start at 7 (disconexed): ', bfs(g, 7))
 
